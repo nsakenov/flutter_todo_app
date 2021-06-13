@@ -19,14 +19,14 @@ class AddTaskScreen extends StatelessWidget {
             ),
             SizedBox(
               height: 30,
-              width: 250,
+              width: 230,
               child: TextField(
                 autofocus: true,
                 textAlign: TextAlign.center,
               ),
             ),
             SizedBox(
-              width: 250,
+              width: 230,
               child: ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.lightBlue),
