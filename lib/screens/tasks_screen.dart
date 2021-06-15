@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/components/add_task_screen.dart';
 import 'package:flutter_todo_app/models/task.dart';
-import 'package:flutter_todo_app/components/task_tile.dart';
+import 'package:flutter_todo_app/components/tasks_list.dart';
 
 class TasksScreen extends StatefulWidget {
   @override
@@ -82,19 +82,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   topRight: Radius.circular(20.0),
                 ),
               ),
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return TaskTile(
-                      title: tasks[index].name,
-                      isChecked: tasks[index].isDone,
-                      checkboxCallback: (bool? checkboxState) {
-                        setState(() {
-                          tasks[index].toggleDone();
-                        });
-                      });
-                },
-                itemCount: tasks.length,
-              ),
+              child: TasksList(tasks: tasks),
             ),
           )
         ]));
