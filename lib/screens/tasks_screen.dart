@@ -9,17 +9,20 @@ class TasksScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.lightBlueAccent,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.lightBlueAccent,
-          child: Icon(Icons.add),
-          onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              builder: (BuildContext context) {
-                return AddTaskScreen();
-              },
-            );
-          },
+        floatingActionButton: Padding(
+          padding: EdgeInsets.only(bottom: 0.0),
+          child: FloatingActionButton(
+            backgroundColor: Colors.lightBlueAccent,
+            child: Icon(Icons.add),
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return AddTaskScreen();
+                },
+              );
+            },
+          ),
         ),
         body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Container(
