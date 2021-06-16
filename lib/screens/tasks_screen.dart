@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/components/add_task_screen.dart';
-import 'package:flutter_todo_app/models/task.dart';
 import 'package:flutter_todo_app/components/tasks_list.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_todo_app/models/task_data.dart';
 
-class TasksScreen extends StatefulWidget {
-  @override
-  _TasksScreenState createState() => _TasksScreenState();
-}
-
-class _TasksScreenState extends State<TasksScreen> {
+class TasksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,15 +16,7 @@ class _TasksScreenState extends State<TasksScreen> {
             showModalBottomSheet(
               context: context,
               builder: (BuildContext context) {
-                return AddTaskScreen(
-                  addTasks: (String name) {
-                    setState(() {
-                      Provider.of<Data>(context, listen: false)
-                          .tasks
-                          .add(Task(name: name));
-                    });
-                  },
-                );
+                return AddTaskScreen();
               },
             );
           },
@@ -63,7 +49,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   ),
                 ),
                 Text(
-                  '${Provider.of<Data>(context).tasks.length} Tasks',
+                  '${Provider.of<Data>(context).taskCount} Tasks',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,

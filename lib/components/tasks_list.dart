@@ -3,28 +3,23 @@ import 'task_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_todo_app/models/task_data.dart';
 
-class TasksList extends StatefulWidget {
-  @override
-  _TasksListState createState() => _TasksListState();
-}
-
-class _TasksListState extends State<TasksList> {
+class TasksList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        return TaskTile(
-            title: Provider.of<Data>(context).tasks[index].name,
-            isChecked: Provider.of<Data>(context).tasks[index].isDone,
-            checkboxCallback: (bool? checkboxState) {
-              setState(() {
-                Provider.of<Data>(context, listen: false)
-                    .tasks[index]
-                    .toggleDone();
+    return Consumer<Data>(builder: (context, Data, child) {
+      return ListView.builder(
+        itemBuilder: (context, index) {
+          final task = Data.tasks[index];
+          return TaskTile(
+              title: task.name,
+              isChecked: task.isDone,
+              taskIndex: index,
+              checkboxCallback: (bool? checkboxState) {
+                Data.updateTask(task);
               });
-            });
-      },
-      itemCount: Provider.of<Data>(context).tasks.length,
-    );
+        },
+        itemCount: Data.taskCount,
+      );
+    });
   }
 }
