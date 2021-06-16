@@ -35,6 +35,7 @@ class AddTaskScreen extends StatelessWidget {
                 ),
                 child: Text('Add'),
                 onPressed: () {
+                  print(myController.text);
                   addTasks(myController.text);
                   Navigator.pop(context);
                 },

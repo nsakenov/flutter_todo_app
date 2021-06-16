@@ -3,18 +3,7 @@ import 'package:flutter_todo_app/components/add_task_screen.dart';
 import 'package:flutter_todo_app/models/task.dart';
 import 'package:flutter_todo_app/components/tasks_list.dart';
 import 'package:provider/provider.dart';
-
-class Data extends ChangeNotifier {
-  List<Task> tasks = [
-    Task(name: 'example task'),
-    Task(name: 'example task 1'),
-  ];
-  void add(Task) {
-    tasks.add(Task);
-  }
-
-  notifyListeners();
-}
+import 'package:flutter_todo_app/models/task_data.dart';
 
 class TasksScreen extends StatefulWidget {
   @override
@@ -24,80 +13,78 @@ class TasksScreen extends StatefulWidget {
 class _TasksScreenState extends State<TasksScreen> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<Data>(
-      create: (context) => Data(),
-      child: Consumer<Data>(
-        builder: (context, provider, child) => Scaffold(
-            backgroundColor: Colors.lightBlueAccent,
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: Colors.lightBlueAccent,
-              child: Icon(Icons.add),
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AddTaskScreen(
-                      addTasks: (String name) {
-                        Provider.of<Data>(context).tasks.add(Task(name: name));
-                      },
-                    );
+    return Scaffold(
+        backgroundColor: Colors.lightBlueAccent,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.lightBlueAccent,
+          child: Icon(Icons.add),
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              builder: (BuildContext context) {
+                return AddTaskScreen(
+                  addTasks: (String name) {
+                    setState(() {
+                      Provider.of<Data>(context, listen: false)
+                          .tasks
+                          .add(Task(name: name));
+                    });
                   },
                 );
               },
+            );
+          },
+        ),
+        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Container(
+            padding: EdgeInsets.only(
+                top: 60.0, left: 30.0, right: 30.0, bottom: 30.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  child: Icon(
+                    Icons.list,
+                    size: 30,
+                    color: Colors.lightBlueAccent,
+                  ),
+                  backgroundColor: Colors.white,
+                  radius: 30.0,
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Text(
+                  'Todoey',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 50.0,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                Text(
+                  '${Provider.of<Data>(context).tasks.length} Tasks',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.0,
+                  ),
+                ),
+              ],
             ),
-            body:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Container(
-                padding: EdgeInsets.only(
-                    top: 60.0, left: 30.0, right: 30.0, bottom: 30.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                      child: Icon(
-                        Icons.list,
-                        size: 30,
-                        color: Colors.lightBlueAccent,
-                      ),
-                      backgroundColor: Colors.white,
-                      radius: 30.0,
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    Text(
-                      'Todoey',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 50.0,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Text(
-                      '${Provider.of<Data>(context).tasks.length} Tasks',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                      ),
-                    ),
-                  ],
+          ),
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20.0),
+                  topRight: Radius.circular(20.0),
                 ),
               ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20.0),
-                      topRight: Radius.circular(20.0),
-                    ),
-                  ),
-                  child: TasksList(),
-                ),
-              )
-            ])),
-      ),
-    );
+              child: TasksList(),
+            ),
+          )
+        ]));
   }
 }

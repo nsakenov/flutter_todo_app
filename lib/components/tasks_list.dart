@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todo_app/models/task.dart';
 import 'task_tile.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_todo_app/screens/tasks_screen.dart';
+import 'package:flutter_todo_app/models/task_data.dart';
 
 class TasksList extends StatefulWidget {
   @override
@@ -19,7 +18,9 @@ class _TasksListState extends State<TasksList> {
             isChecked: Provider.of<Data>(context).tasks[index].isDone,
             checkboxCallback: (bool? checkboxState) {
               setState(() {
-                Provider.of<Data>(context).tasks[index].toggleDone();
+                Provider.of<Data>(context, listen: false)
+                    .tasks[index]
+                    .toggleDone();
               });
             });
       },
